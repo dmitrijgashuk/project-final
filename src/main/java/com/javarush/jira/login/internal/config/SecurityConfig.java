@@ -60,6 +60,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/admin/**").hasRole(Role.ADMIN.name())
                 .requestMatchers(HttpMethod.POST, "/api/users").anonymous()
                 .requestMatchers("/api/**").authenticated()
+                .requestMatchers("/h2-console").anonymous()
                 .and().httpBasic()
                 .authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER) // support sessions Cookie for UI ajax

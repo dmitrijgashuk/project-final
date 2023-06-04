@@ -1,29 +1,27 @@
-app:
-  host-url: http://localhost:8080
-  test-mail: jira4jr@gmail.com
-  templates-update-cache: 5s
-  mail-sending-props:
-    core-pool-size: 8
-    max-pool-size: 100
-
-
-spring.cache.type: none
 spring:
-  sql:
-    init:
-      mode: always
   jpa:
+    show-sql: true
+    open-in-view: false
+
     hibernate:
       ddl-auto: validate
+
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+        default_batch_fetch_size: 20
+        jdbc.batch_size: 20
+
   datasource:
-    url: jdbc:h2:mem:test;;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;NON_KEYWORDS=VALUE;
+    url: jdbc:h2:mem:jira;NON_KEYWORDS=VALUE
+    #;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;NON_KEYWORDS=VALUE;
     username: ${DATASOURCE_USERNAME}
     password: ${DATASOURCE_PASSWORD}
     driver-class-name: org.h2.Driver
 
-
   liquibase:
-    changeLog: "classpath:db/changelog-test.sql"
+    changeLog: "classpath:db/changelog.sql"
 
   jackson:
     visibility:
@@ -81,6 +79,9 @@ spring:
       password: ${MAIL_PASSWORD}
       port: 587
     thymeleaf.check-template-location: false
+    user:
+      name: admin
+      password: admin
 
   logging:
     level:
@@ -88,7 +89,6 @@ spring:
       com.javarush.jira: DEBUG
       com.javarush.jira.common.config.MvcConfig: WARN
       org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
-
   server:
     forward-headers-strategy: framework
     servlet:
@@ -97,3 +97,12 @@ spring:
         enabled: true # Enable http encoding support
         force: true
   springdoc.swagger-ui.path: /doc
+
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+server:
+  port: 8081
+

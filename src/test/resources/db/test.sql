@@ -1,3 +1,4 @@
+
 DELETE FROM profile;
 DELETE FROM user_role;
 DELETE FROM user_belong;
@@ -5,6 +6,9 @@ DELETE FROM users;
 DELETE FROM task;
 DELETE FROM sprint;
 DELETE FROM project;
+
+CREATE SEQUENCE if not exists users_id_seq START WITH 1 INCREMENT BY 1;
+ALTER TABLE USERS ALTER COLUMN id RESTART WITH 1;
 ALTER SEQUENCE users_id_seq RESTART WITH 1;
 
 insert into users (EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, DISPLAY_NAME)
@@ -20,6 +24,7 @@ values (0, 1),
        (0, 2);
 
 DELETE FROM reference;
+CREATE SEQUENCE IF NOT EXISTS reference_id_seq START WITH 1 INCREMENT BY 1;
 ALTER SEQUENCE reference_id_seq RESTART WITH 1;
 --============ References =================
 insert into reference (CODE, TITLE, REF_TYPE)
