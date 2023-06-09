@@ -13,9 +13,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Map;
 import java.util.concurrent.Executor;
@@ -43,6 +46,16 @@ public class AppConfig {
             }
         };
     }
+
+/*    @Bean
+    WebClient webClient() {
+        return WebClient.builder()
+                .baseUrl("http://localhost:3000")
+                .defaultCookie("cookie-name", "cookie-value")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+    }*/
+
 
     //    https://stackoverflow.com/a/74630129/548473
     @JsonAutoDetect(fieldVisibility = NONE, getterVisibility = ANY)

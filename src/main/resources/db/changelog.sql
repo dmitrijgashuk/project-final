@@ -266,3 +266,13 @@ INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, st
 INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, startpoint, endpoint) VALUES (4, 3, 2, 2, 'admin', null, null);
 INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, startpoint, endpoint) VALUES (5, 4, 2, 2, 'admin', null, null);
 INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, startpoint, endpoint) VALUES (6, 5, 2, 2, 'admin', null, null);
+
+--changeset dhashuk:add_tag_table
+CREATE TABLE TAGS (
+    id      BIGINT,
+    task_id BIGINT,
+    label   VARCHAR(32)
+);
+
+--changeset dgashk:remove_task_tag_table
+DROP TABLE TASK_TAG;
