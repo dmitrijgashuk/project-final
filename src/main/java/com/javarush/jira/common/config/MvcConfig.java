@@ -70,6 +70,7 @@ public class MvcConfig implements WebMvcConfigurer {
         }};
     }
 
+
     //  https://springdoc.org/index.html#how-can-i-deploy-springdoc-openapi-ui-behind-a-reverse-proxy
     @Bean
     ForwardedHeaderFilter forwardedHeaderFilter() {

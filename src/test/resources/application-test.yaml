@@ -1,5 +1,109 @@
-spring.cache.type: none
+
 spring:
-  sql:
-    init:
-      mode: always
+  jpa:
+    show-sql: true
+    open-in-view: false
+
+    hibernate:
+      ddl-auto: validate
+
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+        default_batch_fetch_size: 20
+        jdbc.batch_size: 20
+
+  datasource:
+    url: jdbc:h2:mem:jira;NON_KEYWORDS=VALUE
+    #;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;NON_KEYWORDS=VALUE;
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+    driver-class-name: org.h2.Driver
+
+  liquibase:
+    changeLog: "classpath:db/changelog.sql"
+
+  jackson:
+    visibility:
+      field: any
+      getter: none
+      setter: none
+      is-getter: none
+
+  cache:
+    cache-names: users
+    caffeine.spec: maximumSize=10000,expireAfterAccess=5m
+
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET}
+            scope:
+              - email
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
+          gitlab:
+            client-id: ${GITLAB_CLIENT_ID}
+            client-secret: ${GITLAB_CLIENT_SECRET}
+            client-name: GitLab
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            authorization-grant-type: authorization_code
+            scope: read_user
+        provider:
+          gitlab:
+            authorization-uri: https://gitlab.com/oauth/authorize
+            token-uri: https://gitlab.com/oauth/token
+            user-info-uri: https://gitlab.com/api/v4/user
+            user-name-attribute: email
+
+    sql:
+      init:
+        mode: always
+
+    mail:
+      properties:
+        mail:
+          smtp:
+            starttls:
+              enable: true
+            auth: true
+      host: smtp.gmail.com
+      username: ${MAIL_USERNAME}
+      password: ${MAIL_PASSWORD}
+      port: 587
+    thymeleaf.check-template-location: false
+    user:
+      name: admin
+      password: admin
+
+  logging:
+    level:
+      root: WARN
+      com.javarush.jira: DEBUG
+      com.javarush.jira.common.config.MvcConfig: WARN
+      org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
+  server:
+    forward-headers-strategy: framework
+    servlet:
+      encoding:
+        charset: UTF-8 # Charset of HTTP requests and responses. Added to the "Content-Type" header if not set explicitly
+        enabled: true # Enable http encoding support
+        force: true
+  springdoc.swagger-ui.path: /doc
+
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+server:
+  port: 8081
+

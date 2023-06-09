@@ -15,6 +15,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -59,14 +60,18 @@ public class Task extends TitleEntity {
     @Positive
     private Integer estimate;
 
-    @CollectionTable(name = "task_tag",
+    /*@CollectionTable(name = "task_tag",
             joinColumns = @JoinColumn(name = "task_id"),
             uniqueConstraints = @UniqueConstraint(columnNames = {"task_id", "tag"}, name = "uk_task_tag"))
     @Column(name = "tag")
     @ElementCollection(fetch = FetchType.EAGER)
     @JoinColumn()
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Set<@Size(min = 2, max = 32) String> tags = Set.of();
+    private Set<@Size(min = 2, max = 32) String> tags = Set.of();*/
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "task_id")
+    private Set<Tag> tags;
 
     @OneToMany(mappedBy = "task", fetch = FetchType.LAZY)
     private List<Activity> activities;
@@ -76,4 +81,5 @@ public class Task extends TitleEntity {
     @JoinColumn(name = "parent_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Task parent;
+
 }

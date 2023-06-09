@@ -24,6 +24,5 @@ public class ProfileRestController extends AbstractProfileController {
         super.update(profileTo, authUser.id());
     }
 
-
 }
 
